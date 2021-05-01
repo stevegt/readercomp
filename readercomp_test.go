@@ -53,7 +53,7 @@ func TestEqual(t *testing.T) {
 			r2:      []readResult{{bytes.Repeat([]byte{'v'}, 100), io.EOF}},
 			bufSize: 8192,
 			want:    false,
-			wantErr: false,
+			wantErr: true,
 		},
 		{
 			name:    "single read, len(r1) < len(r2), neq",
@@ -61,7 +61,7 @@ func TestEqual(t *testing.T) {
 			r2:      []readResult{{bytes.Repeat([]byte{'v'}, 100), io.EOF}},
 			bufSize: 8192,
 			want:    false,
-			wantErr: false,
+			wantErr: true,
 		},
 		{
 			name:    "single read, len(r1) < len(r2), neq",
@@ -69,7 +69,7 @@ func TestEqual(t *testing.T) {
 			r2:      []readResult{{bytes.Repeat([]byte{'v'}, 80), io.EOF}},
 			bufSize: 8192,
 			want:    false,
-			wantErr: false,
+			wantErr: true,
 		},
 		{
 			name:    "multi read, eq",
@@ -127,7 +127,7 @@ func TestEqual(t *testing.T) {
 			},
 			bufSize: 64,
 			want:    false,
-			wantErr: false,
+			wantErr: true,
 		},
 		{
 			name: "multi read, diff short, r1 err",
