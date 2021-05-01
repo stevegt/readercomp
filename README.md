@@ -14,11 +14,14 @@ trivial, due to edge-cases like short reads and the way errors
 
 This package tries to deliver a solid implementation for these cases.
 
-This fork of @hlubek's [excellent package](https://github.com/hlubek/readercomp) 
+This fork of @hlubek's [excellent package](https://github.com/hlubek/readercomp)
 was modified by @stevegt to add more information for troubleshooting
 in the case of an io.Reader comparison mismatch; specifically, it adds
 a ReaderCompError type that includes the failing buffers and size
-data.
+data.  This fork breaks backward compatibility to the extent that, in
+@hlubek's version, the returned err is nil in the case of size or
+content mismatches, where in this fork we populate err with a
+ReaderCompError containing the details.
 
 ## Install
 
