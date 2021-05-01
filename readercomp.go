@@ -3,9 +3,22 @@ package readercomp
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"os"
 )
+
+type ReaderCompError struct {
+	Msg string
+	N1  int
+	N2  int
+	B1  []byte
+	B2  []byte
+}
+
+func (e ReaderCompError) Error() string {
+	return fmt.Sprintf("%s: n1: %d n2: %d\nb1: %q\nb2: %q", e.Msg, e.N1, e.N2, string(e.B1), string(e.B2))
+}
 
 // Equal tests two finite reader streams for equality by comparing batches up to bufSize
 func Equal(r1, r2 io.Reader, bufSize int) (bool, error) {
@@ -48,11 +61,11 @@ func Equal(r1, r2 io.Reader, bufSize int) (bool, error) {
 
 		// If sizes don't match either of the readers hit EOF (can't catch up), so not equal
 		if n1 != n2 {
-			return false, nil
+			return false, &ReaderCompError{"size mismatch", n1, n2, b1, b2}
 		}
 
 		if !bytes.Equal(b1, b2) {
-			return false, nil
+			return false, &ReaderCompError{"content mismatch", n1, n2, b1, b2}
 		}
 
 		// We asserted before that err1 / err2 are either nil or io.EOF - if both are io.EOF we are finished
