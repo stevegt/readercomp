@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/hlubek/readercomp"
+	"github.com/stevegt/readercomp"
 )
 
 func BenchmarkFilesEqual(b *testing.B) {
